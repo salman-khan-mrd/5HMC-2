@@ -39,7 +39,48 @@ In this model, we applied five different feature encodings such as Mismatches (M
 SHAPley Additive Explanations (SHAP) uses cooperative game theory to distribute credit among the contributions of input features in machine learning algorithms. 
 
 Feature Selection folder contains all the features selection related necessary codes used in this study.
+```bash
+# Load your data
+# Assuming X is your feature matrix and y is your target variable
+# X, y = your_data()
 
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the XGBoost model
+model = xgb.XGBClassifier()
+model.fit(X_train, y_train)
+
+# Create a SHAP explainer
+explainer = shap.TreeExplainer(model)
+
+# Calculate SHAP values
+shap_values = explainer.shap_values(X_train)
+
+# Plot the summary plot for feature importance
+shap.summary_plot(shap_values, X_train)
+
+# Optional: Select top features based on SHAP values
+importance_df = pd.DataFrame({
+    'feature': X_train.columns,
+    'shap_importance': np.abs(shap_values).mean(axis=0)
+}).sort_values(by='shap_importance', ascending=False)
+
+# Choose a threshold or a specific number of top features
+top_features = importance_df['feature'].head(10)  # Example: top 10 features
+
+# Filter the original dataset to include only these top features
+X_train_selected = X_train[top_features]
+X_test_selected = X_test[top_features]
+
+# You can now retrain your model using X_train_selected and X_test_selected
+model_selected = xgb.XGBClassifier()
+model_selected.fit(X_train_selected, y_train)
+
+# Evaluate your model
+accuracy = model_selected.score(X_test_selected, y_test)
+print(f"Model accuracy with selected features: {accuracy:.4f}")
+```
 ## Machine Learning Algorithms
 The performance of the proposed model with other widely used machine learning algorithms using hybrid features. 
 1. Support Vector Machine using Radial Basis Function Kernel
