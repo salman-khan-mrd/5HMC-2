@@ -24,7 +24,7 @@ We have included a file named datset.fasta as an example in this repository
 Once you have downloaded the sequence you can send the sequence as input.
 ## FEATURE EXTRACTION TECHNIQUES
 To generate prominent, reliable, and variant statistical-based discriminative descriptors, several feature encoding approaches have been utilized for the formulation of proteins, RNA, and DNA sequences 20. The detailed overview of the proposed feature encoding schemes is presented as follow.
-1. Mismatches 
+1. Mismatches (MisM)
 2. Accumulated Nucleotide Frequency (ANF)
 3. . Position-Specific Trinucleotide Propensity Based on Single-Strand (PSTNPSS)
 4. Adaptive Skip Dipeptide Composition (ASDC)
@@ -33,7 +33,7 @@ To generate prominent, reliable, and variant statistical-based discriminative de
 Feature Extraction folder contains all the features extraction related necessary codes used in this study.
 
 ## Fused Feature Vector 
-In this model, we applied five different feature encodings such as Mismatches (MisM), ASDC, DAC, PSTNPSS, and ANF to capture the nucleotide-based features keeping their residue ordering information. Moreover, to generate the high discriminative model representing the multi-perspective features, we serially concatenated the extracted features to form an individual vector covering the weakness of the individual feature vector.  
+In this model, we applied five different feature encodings such as Mismatches MisM, ASDC, DAC, PSTNPSS, and ANF to capture the nucleotide-based features keeping their residue ordering information. Moreover, to generate the high discriminative model representing the multi-perspective features, we serially concatenated the extracted features to form an individual vector covering the weakness of the individual feature vector.  
 
 ## FEATURE SELECTION TECHNIQUES Using SHAP
 SHAPley Additive Explanations (SHAP) uses cooperative game theory to distribute credit among the contributions of input features in machine learning algorithms. 
