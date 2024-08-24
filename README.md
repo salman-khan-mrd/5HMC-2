@@ -26,12 +26,31 @@ Once you have downloaded the sequence you can send the sequence as input.
 To generate prominent, reliable, and variant statistical-based discriminative descriptors, several feature encoding approaches have been utilized for the formulation of proteins, RNA, and DNA sequences 20. The detailed overview of the proposed feature encoding schemes is presented as follow.
 1. Mismatches (MisM)
 2. Accumulated Nucleotide Frequency (ANF)
-3. . Position-Specific Trinucleotide Propensity Based on Single-Strand (PSTNPSS)
+3. Position-Specific Trinucleotide Propensity Based on Single-Strand (PSTNPSS)
 4. Adaptive Skip Dipeptide Composition (ASDC)
 5. Dinucleotide-Based Auto Covariance (DAC)
 
 Feature Extraction folder contains all the features extraction related necessary codes used in this study.
+#### For Example: Position-Specific Trinucleotide Propensity Based on Single-Strand (PSTNPSS)
+```bash
+# Initialize dictionary to store trinucleotide counts for each position
+trinucleotide_counts = defaultdict(lambda: defaultdict(int))
 
+# Loop through each sequence
+for seq in sequences:
+    for i in range(len(seq) - 2):
+        trinucleotide = seq[i:i+3]  # Extract trinucleotide
+        trinucleotide_counts[i][trinucleotide] += 1  # Count trinucleotide at position i
+
+# Convert counts to a DataFrame for easier viewing and manipulation
+trinucleotide_df = pd.DataFrame(trinucleotide_counts).fillna(0)
+
+# Normalize to get trinucleotide propensity (frequency)
+trinucleotide_df = trinucleotide_df.div(trinucleotide_df.sum(axis=0), axis=1)
+
+# Display the position-specific trinucleotide propensity
+print(trinucleotide_df)
+```
 ## Fused Feature Vector 
 In this model, we applied five different feature encodings such as Mismatches MisM, ASDC, DAC, PSTNPSS, and ANF to capture the nucleotide-based features keeping their residue ordering information. Moreover, to generate the high discriminative model representing the multi-perspective features, we serially concatenated the extracted features to form an individual vector covering the weakness of the individual feature vector.  
 
@@ -91,7 +110,7 @@ The performance of the proposed model with other widely used machine learning al
 6. LR
 
 ## How to Run the Program
-SVM Code
+#### For Example: SVM Code
 ```bash
 df2 = pd.read_csv(io.BytesIO(uploaded['PSTNPSS.csv']))
 X = df2.iloc[:, 0:65].values
